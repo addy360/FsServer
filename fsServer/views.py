@@ -17,7 +17,20 @@ def directories(request):
     fs = MyFs()
 
     context = {
+        "meta":"directories",
         "data":fs.list_dirs()
+    }
+
+    return Response(context)
+
+
+@api_view(['get'])
+def files(request):
+    fs = MyFs()
+
+    context={
+        "meta":"files",
+        "data":fs.list_files()
     }
 
     return Response(context)

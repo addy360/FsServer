@@ -14,7 +14,7 @@ class MyFs():
         files = []
         for i in self.path.iterdir():
             if(i.is_file()):
-                files.append(i)
+                files.append(i.as_uri())
         return files 
 
     def list_dirs (self):
@@ -22,7 +22,7 @@ class MyFs():
         try:
             for i in self.path.iterdir():
                 if(i.is_dir()):
-                    dirs.append(str(i.absolute()))
+                    dirs.append(i.as_uri())
         except PermissionError:
             return False
         except FileNotFoundError:
