@@ -25,7 +25,7 @@ def directories(request:Request):
     context = {
         "directory":fs.get_path(),
         "meta":"directories",
-        "data":fs.list_dirs()
+        "data":[f.as_uri() for f in fs.list_dirs()]
     }
 
     return Response(context)
@@ -42,6 +42,35 @@ def files(request : Request):
         "meta":"files",
         "directory":fs.get_path(),
         "data":fs.list_files()
+    }
+
+    return Response(context)
+
+
+@api_view(['get'])
+def search(request:Request):
+    query = request.query_params.get('query')
+    dir = request.query_params.get('dir')
+    fs = MyFs()
+
+    if(not query):
+        context={
+            "meta":"search results",
+            "directory":fs.get_path(),
+            "data":"No search query param"
+        }
+
+        return Response(context)
+
+    if(dir):
+        fs.set_path(dir)
+
+
+    files = fs.find_file(query)
+    context={
+        "meta":"search results",
+        "directory":fs.get_path(),
+        "data":files
     }
 
     return Response(context)

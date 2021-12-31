@@ -29,7 +29,7 @@ class MyFs():
         try:
             for i in self.path.iterdir():
                 if(i.is_dir()):
-                    dirs.append(i.as_uri())
+                    dirs.append(i)
         except PermissionError:
             return False
         except FileNotFoundError:
@@ -44,12 +44,17 @@ class MyFs():
             self.list_all_dirs()
 
     def find_file(self, query):
+        files = []
         dirs = self.list_dirs()
-        for dir_path in dirs:
-            for f in self.path.glob(query):
-                print(f)
-            self.set_path(dir_path)
-            self.find_file(query)
+        if(dirs):
+            for dir_path in dirs:
+                for f in self.path.glob(query):
+                    if(f.is_file()):
+                        files.append(f.as_uri())
+                self.set_path(dir_path)
+                self.find_file(query)
+
+        return files
             
 
     def run(self):
