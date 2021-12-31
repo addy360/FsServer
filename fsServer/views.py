@@ -14,10 +14,16 @@ def index(request):
     return Response(context)
 
 @api_view(['get'])
-def directories(request):
+def directories(request:Request):
+    dir = request.query_params.get('dir')
     fs = MyFs()
 
+    if dir:
+        fs.set_path(dir)
+        
+
     context = {
+        "directory":fs.get_path(),
         "meta":"directories",
         "data":fs.list_dirs()
     }
@@ -34,6 +40,7 @@ def files(request : Request):
 
     context={
         "meta":"files",
+        "directory":fs.get_path(),
         "data":fs.list_files()
     }
 

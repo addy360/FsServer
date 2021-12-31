@@ -7,6 +7,9 @@ class MyFs():
     def set_path(self,path):
         self.path = pathlib.Path(path)
 
+    def get_path(self):
+        return self.path.as_uri()
+
     def get_home_dir(self):
         return pathlib.Path(pathlib.Path.home())
 
