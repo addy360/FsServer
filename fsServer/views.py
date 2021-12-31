@@ -1,4 +1,5 @@
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework.decorators import api_view
 
 from utils.index import MyFs
@@ -25,8 +26,11 @@ def directories(request):
 
 
 @api_view(['get'])
-def files(request):
+def files(request : Request):
+    dir = request.query_params.get('dir')
     fs = MyFs()
+    if(dir):
+        fs.set_path(dir)
 
     context={
         "meta":"files",

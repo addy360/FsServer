@@ -12,9 +12,13 @@ class MyFs():
 
     def list_files (self):
         files = []
-        for i in self.path.iterdir():
-            if(i.is_file()):
-                files.append(i.as_uri())
+        try:
+            for i in self.path.iterdir():
+                if(i.is_file()):
+                    files.append(i.as_uri())
+        except :
+            return False
+       
         return files 
 
     def list_dirs (self):
